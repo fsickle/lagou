@@ -28,5 +28,5 @@ class MongoPipeLine(object):
         self.db = self.client[self.mongo_db]
 
     def process_item(self, item, spider):
-        self.db[item.collection].insert(dict(item))
+        self.db[item.collection].insert_one(dict(item))
         return item

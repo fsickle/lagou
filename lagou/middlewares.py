@@ -7,34 +7,26 @@
 
 from scrapy import signals
 import base64
-
-
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from logging import getLogger
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from scrapy.http import HtmlResponse
-from selenium.common.exceptions import TimeoutException
-import re
-from selenium.webdriver.chrome.options import Options
-import requests
 import time
 import base64
 
+# 代理服务器
+proxyServer = ""
+
+# 代理隧道验证信息
+proxyUser = ""
+proxyPass = ""
+
+# for Python3
+proxyAuth = "Basic " + base64.urlsafe_b64encode(bytes((proxyUser + ":" + proxyPass), "ascii")).decode("utf8")
 
 class ProxyMiddleware(object):
-    # overwrite process request
+    """ 代理ip """
     def process_request(self, request, spider):
-        # Set the location of the proxy
-        # request.meta['proxy'] = "http-dyn.abuyun.com；9020"
-
-        # Use the following lines if your proxy requires authentication
-        proxy_user_pass = "username:password"
-        # setup basic authentication for the proxy
-        encoded_user_pass = base64.b64encode(proxy_user_pass.encode('utf-8')).decode('utf-8')
-        request.headers['Proxy-Authorization'] = 'Basic ' + encoded_user_pass
+        print('Usiong proxy')
+        # request.meta["proxy"] = 'https://' + proxyUser + ':' + proxyPass + '@proxy.abuyun.com:9020'
+        request.meta["proxy"] = proxyServer
+        request.headers["Proxy-Authorization"] = proxyAuth
 
 
 class LagouSpiderMiddleware(object):

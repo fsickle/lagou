@@ -45,8 +45,8 @@ class LagouSpiderSpider(Spider):
         for i in range(15):
             id = content['content']['positionResult']['result'][i]['positionId']
             url = 'https://www.lagou.com/jobs/'+str(id)+'.html'
-            sleep(random.random())
-            yield Request(url, headers=headers, callback=self.parse_job)
+            sleep(random.random()*5)
+            yield Request(url, callback=self.parse_job, headers=headers,)
 
     def parse_job(self, response):
         item = LagouItem()
